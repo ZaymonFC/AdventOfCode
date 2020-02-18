@@ -115,7 +115,6 @@ module Day3 =
     let pAt: AnonymousParser<_> = pchar '@'
     let pAtWithSpaces: AnonymousParser<_> = spaces .>> pAt .>> spaces
 
-
     let claimParser: Parser<_, unit> =
         pHashId .>> pAtWithSpaces .>>. pTuple2Int .>> pchar ':' .>> spaces .>>. pDimensions
 
@@ -135,5 +134,6 @@ module Day3 =
 
     let result = structuredData
 
-    let overlap (r1: Rect) (r2: Rect) : bool =
-        true
+    let overlap (r1: Rect) (r2: Rect): bool =
+        [ r1.Left < r2.Right; r1.Right > r2.Left; r1.Top < r2.Bottom; r1.Bottom > r2.Top ]
+        |> List.reduce (&&)
